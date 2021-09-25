@@ -1,0 +1,83 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  strong-mode:
+    implicit-dynamic: true
+  errors:
+    # treat missing required parameters as a warning (not a hint)
+    missing_required_param: warning
+    # treat missing returns as a warning (not a hint)
+    missing_return: warning
+    # allow having TODOs in the code
+    todo: ignore
+    # Ignore analyzer hints for updating pubspecs when using Future or
+    # Stream and not importing dart:async
+    # Please see https://github.com/flutter/flutter/pull/24528 for details.
+    sdk_version_async_exported_from_core: ignore
+  exclude:
+    - "bin/cache/**"
+    # the following two are relative to the stocks example and the flutter package respectively
+    # see https://github.com/dart-lang/sdk/issues/28463
+    - "lib/i18n/stock_messages_*.dart"
+    - "lib/src/http/**"
+
+# https://dart-lang.github.io/linter/lints/index.html
+linter:
+  rules:
+    - always_use_package_imports
+    - avoid_returning_null_for_future
+    - avoid_slow_async_io
+    - avoid_type_to_string
+    - cancel_subscriptions
+    - close_sinks
+    - comment_references
+    - literal_only_boolean_expressions
+    - no_adjacent_strings_in_list
+    - test_types_in_equals
+    - throw_in_finally
+    - unnecessary_statements
+    - always_declare_return_types
+    - use_string_buffers
+    - use_raw_strings
+    - use_named_constants
+    - use_is_even_rather_than_modulo
+    - use_if_null_to_convert_nulls_to_bools
+    - unnecessary_raw_strings
+    - unnecessary_parenthesis
+    - unnecessary_null_aware_assignments
+    - unnecessary_final
+    - unnecessary_await_in_return
+    - tighten_type_of_initializing_formals
+    - sort_unnamed_constructors_first
+    - sort_constructors_first
+    - prefer_int_literals
+    - prefer_if_elements_to_conditional_expressions
+    - prefer_foreach
+    - prefer_final_in_for_each
+    - prefer_expression_function_bodies
+    - prefer_single_quotes
+    - prefer_constructors_over_static_methods
+    - prefer_asserts_with_message
+    - prefer_asserts_in_initializer_lists
+    - parameter_assignments
+    - only_throw_errors
+    - no_runtimeType_toString
+    - missing_whitespace_between_adjacent_strings
+    - leading_newlines_in_multiline_strings
+    - join_return_with_assignment
+    - flutter_style_todos
+    - do_not_use_environment
+    - deprecated_consistency
+    - cascade_invocations
+    - avoid_void_async
+    - avoid_unused_constructor_parameters
+    - avoid_redundant_argument_values
+    - avoid_multiple_declarations_per_line
+    - avoid_implementing_value_types
+    - avoid_field_initializers_in_const_classes
+    - avoid_escaping_inner_quotes
+    - avoid_double_and_int_checks
+    - avoid_bool_literals_in_conditional_expressions
+    - avoid_annotating_with_dynamic
+    - always_put_control_body_on_new_line
+    - lines_longer_than_80_chars
