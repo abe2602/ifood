@@ -45,7 +45,6 @@ linter:
     - unnecessary_raw_strings
     - unnecessary_parenthesis
     - unnecessary_null_aware_assignments
-    - unnecessary_final
     - unnecessary_await_in_return
     - tighten_type_of_initializing_formals
     - sort_unnamed_constructors_first
