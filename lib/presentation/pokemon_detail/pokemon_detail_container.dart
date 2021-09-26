@@ -1,4 +1,6 @@
 import 'package:domain/use_case/get_pokemon_detail_use_case.dart';
+import 'package:domain/use_case/catch_pokemon_use_case.dart';
+import 'package:domain/use_case/release_pokemon_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:ifood/presentation/common/action_handler.dart';
 import 'package:ifood/presentation/common/async_snapshot_response_view.dart';
@@ -14,13 +16,24 @@ class PokemonDetailContainer extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  static Widget create(String pokemonName) =>
-      ProxyProvider<GetPokemonDetailUseCase, PokemonDetailBloc>(
-        update: (_, getPokemonDetailUseCase, bloc) =>
+  static Widget create(String pokemonName) => ProxyProvider3<
+          GetPokemonDetailUseCase,
+          CatchPokemonUseCase,
+          ReleasePokemonUseCase,
+          PokemonDetailBloc>(
+        update: (
+          _,
+          getPokemonDetailUseCase,
+          catchPokemonUseCase,
+          releasePokemonUseCase,
+          bloc,
+        ) =>
             bloc ??
             PokemonDetailBloc(
               pokemonName: pokemonName,
               getPokemonDetailUseCase: getPokemonDetailUseCase,
+              catchPokemonUseCase: catchPokemonUseCase,
+              releasePokemonUseCase: releasePokemonUseCase,
             ),
         dispose: (_, bloc) => bloc.dispose(),
         child: Consumer<PokemonDetailBloc>(

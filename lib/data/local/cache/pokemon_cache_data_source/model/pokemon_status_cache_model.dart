@@ -1,0 +1,4 @@
+enum PokemonStatusCacheModel {
+  caught,
+  free,
+}

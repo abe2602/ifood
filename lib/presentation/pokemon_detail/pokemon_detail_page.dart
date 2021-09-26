@@ -1,6 +1,6 @@
 import 'package:domain/model/pokemon_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:domain/model/pokemon_detail_status.dart';
+import 'package:domain/model/pokemon_status.dart';
 import 'package:ifood/generated/l10n.dart';
 
 class PokemonDetailPage extends StatelessWidget {
@@ -12,7 +12,7 @@ class PokemonDetailPage extends StatelessWidget {
   }) : super(key: key);
 
   final PokemonDetail pokemonDetail;
-  final Stream<PokemonDetailStatus> onPokemonStatus;
+  final Stream<PokemonStatus> onPokemonStatus;
   final ValueChanged<String> onChangePokemonStatus;
 
   @override
@@ -30,14 +30,14 @@ class PokemonDetailPage extends StatelessWidget {
                 pokemonDetail.name,
               ),
             ),
-            StreamBuilder<PokemonDetailStatus>(
+            StreamBuilder<PokemonStatus>(
               stream: onPokemonStatus,
               builder: (_, snapshot) => TextButton(
                 onPressed: () => onChangePokemonStatus(pokemonDetail.name),
                 child: Text(
-                  snapshot.data == PokemonDetailStatus.free
-                      ? S.of(context).pokemonDetailPageCatchButtonStatusText
-                      : S.of(context).pokemonDetailPageReleaseButtonStatusText,
+                  snapshot.data == PokemonStatus.caught
+                      ? S.of(context).pokemonDetailPageReleaseButtonStatusText
+                      : S.of(context).pokemonDetailPageCatchButtonStatusText,
                 ),
               ),
             ),

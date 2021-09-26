@@ -1,4 +1,4 @@
-import 'package:domain/model/pokemon_detail_status.dart';
+import 'package:domain/model/pokemon_status.dart';
 
 class PokemonDetail {
   const PokemonDetail({
@@ -7,5 +7,5 @@ class PokemonDetail {
   });
 
   final String name;
-  final PokemonDetailStatus status;
+  final PokemonStatus status;
 }

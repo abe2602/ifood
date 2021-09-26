@@ -1,6 +1,8 @@
 import 'package:domain/model/pokemon_detail.dart';
-import 'package:domain/model/pokemon_detail_status.dart';
+import 'package:domain/model/pokemon_status.dart';
 import 'package:domain/use_case/get_pokemon_detail_use_case.dart';
+import 'package:domain/use_case/catch_pokemon_use_case.dart';
+import 'package:domain/use_case/release_pokemon_use_case.dart';
 import 'package:ifood/presentation/pokemon_detail/model/pokemon_detail_actions.dart';
 import 'package:ifood/presentation/pokemon_detail/model/pokemon_detail_state.dart';
 import 'package:rxdart/rxdart.dart';
@@ -9,6 +11,8 @@ class PokemonDetailBloc {
   PokemonDetailBloc({
     required this.pokemonName,
     required this.getPokemonDetailUseCase,
+    required this.catchPokemonUseCase,
+    required this.releasePokemonUseCase,
   }) {
     MergeStream([
       _getPokemonDetail(),
@@ -18,13 +22,15 @@ class PokemonDetailBloc {
 
   final String pokemonName;
   final GetPokemonDetailUseCase getPokemonDetailUseCase;
+  final CatchPokemonUseCase catchPokemonUseCase;
+  final ReleasePokemonUseCase releasePokemonUseCase;
 
   // Subjects
   final _onNewState = BehaviorSubject<PokemonDetailState>();
 
   final _onNewAction = BehaviorSubject<PokemonDetailAction>();
 
-  final _onPokemonStatus = BehaviorSubject<PokemonDetailStatus>();
+  final _onPokemonStatus = BehaviorSubject<PokemonStatus>();
 
   final _onChangePokemonStatus = PublishSubject<String>();
 
@@ -33,7 +39,7 @@ class PokemonDetailBloc {
 
   Stream<PokemonDetailAction> get onNewAction => _onNewAction.stream;
 
-  Stream<PokemonDetailStatus> get onPokemonStatus => _onPokemonStatus.stream;
+  Stream<PokemonStatus> get onPokemonStatus => _onPokemonStatus.stream;
 
   Stream<PokemonDetailState> _getPokemonDetail() async* {
     yield Loading();
@@ -45,6 +51,8 @@ class PokemonDetailBloc {
         ),
       );
 
+      _onPokemonStatus.add(pokemonDetail.status);
+
       yield Success(
         pokemonDetail: pokemonDetail,
       );
@@ -55,15 +63,26 @@ class PokemonDetailBloc {
 
   Stream<PokemonDetailState> _changePokemonStatus(String pokemonName) async* {
     final pokemonDetail = (_onNewState.value as Success).pokemonDetail;
-    PokemonDetailStatus newStatus = pokemonDetail.status;
+    PokemonStatus newStatus = pokemonDetail.status;
 
     yield Loading();
 
     try {
-      if (pokemonDetail.status == PokemonDetailStatus.free) {
-        newStatus = PokemonDetailStatus.caught;
+      if (pokemonDetail.status == PokemonStatus.free) {
+        await catchPokemonUseCase(
+          params: CatchPokemonUseCaseParams(
+            pokemonName: pokemonName,
+          ),
+        );
+
+        newStatus = PokemonStatus.caught;
       } else {
-        newStatus = PokemonDetailStatus.free;
+        await releasePokemonUseCase(
+          params: ReleasePokemonUseCaseParams(
+            pokemonName: pokemonName,
+          ),
+        );
+        newStatus = PokemonStatus.free;
       }
 
       _onPokemonStatus.add(newStatus);

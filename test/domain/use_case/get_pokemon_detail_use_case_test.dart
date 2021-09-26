@@ -1,5 +1,5 @@
 import 'package:domain/model/pokemon_detail.dart';
-import 'package:domain/model/pokemon_detail_status.dart';
+import 'package:domain/model/pokemon_status.dart';
 import 'package:domain/use_case/get_pokemon_detail_use_case.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ifood/data/repository/pokemon_repository_impl.dart';
@@ -23,7 +23,7 @@ void main() {
       when(mockPokemonRepository.getPokemonDetail('blastoise')).thenAnswer(
         (_) async => const PokemonDetail(
           name: 'blastoise',
-          status: PokemonDetailStatus.free,
+          status: PokemonStatus.free,
         ),
       );
 
@@ -41,7 +41,7 @@ void main() {
 
       expect(
         pokemonDetail.status,
-        PokemonDetailStatus.free,
+        PokemonStatus.free,
       );
     },
   );

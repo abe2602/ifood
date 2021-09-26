@@ -5,4 +5,8 @@ abstract class PokemonRepository {
   Future<PokemonListing> getPokemonList(int offset, int itemsPerPage);
 
   Future<PokemonDetail> getPokemonDetail(String pokemonName);
+
+  Future<void> releasePokemon(String pokemonName);
+
+  Future<void> catchPokemon(String pokemonName);
 }

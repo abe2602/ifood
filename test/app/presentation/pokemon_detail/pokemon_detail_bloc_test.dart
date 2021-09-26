@@ -1,5 +1,5 @@
 import 'package:domain/model/pokemon_detail.dart';
-import 'package:domain/model/pokemon_detail_status.dart';
+import 'package:domain/model/pokemon_status.dart';
 import 'package:domain/use_case/get_pokemon_detail_use_case.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ifood/presentation/pokemon_detail/model/pokemon_detail_state.dart';
@@ -28,7 +28,7 @@ void main() {
       ).thenAnswer(
         (_) async => const PokemonDetail(
           name: pokemonName,
-          status: PokemonDetailStatus.free,
+          status: PokemonStatus.free,
         ),
       );
 
