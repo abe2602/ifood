@@ -9,9 +9,11 @@ import 'package:ifood/data/repository/pokemon_repository_impl.dart';
 import 'package:ifood/infrastructure/remote/challenge_dio.dart';
 import 'package:ifood/infrastructure/routes/route_name_builder.dart';
 import 'package:ifood/presentation/main/main_screen.dart';
+import 'package:ifood/presentation/pokemon_detail/pokemon_detail_container.dart';
 import 'package:ifood/presentation/pokemon_list/pokemon_list_container.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:domain/use_case/get_pokemon_detail_use_case.dart';
 
 class ChallengeGeneralProvider extends StatelessWidget {
   const ChallengeGeneralProvider(
@@ -68,6 +70,15 @@ class ChallengeGeneralProvider extends StatelessWidget {
               );
             }
 
+            if (settings.name == RouteNameBuilder.getPokemonDetailRoute()) {
+              var args = settings.arguments as String;
+
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => PokemonDetailContainer.create(args),
+              );
+            }
+
             return MaterialPageRoute(
               settings: settings,
               builder: (_) => Container(),
@@ -87,6 +98,11 @@ class ChallengeGeneralProvider extends StatelessWidget {
   List<SingleChildWidget> _buildUseCaseProviders() => [
         ProxyProvider<PokemonRepository, GetPokemonListUseCase>(
           update: (_, repository, __) => GetPokemonListUseCase(
+            repository: repository,
+          ),
+        ),
+        ProxyProvider<PokemonRepository, GetPokemonDetailUseCase>(
+          update: (_, repository, __) => GetPokemonDetailUseCase(
             repository: repository,
           ),
         ),

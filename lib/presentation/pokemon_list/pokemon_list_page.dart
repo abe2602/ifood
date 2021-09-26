@@ -1,6 +1,8 @@
 import 'package:domain/model/pokemon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ifood/generated/l10n.dart';
+import 'package:ifood/infrastructure/routes/route_name_builder.dart';
 import 'package:ifood/presentation/common/subscription_holder.dart';
 import 'package:ifood/presentation/pokemon_list/model/pokemon_list_state.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -54,12 +56,26 @@ class _PokemonListPageState extends State<PokemonListPage>
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text(
+            S.of(context).pokemonListPageTitle,
+          ),
+        ),
         body: SafeArea(
           child: PagedListView<int, Pokemon>(
             pagingController: _pokemonListController,
             builderDelegate: PagedChildBuilderDelegate(
-              itemBuilder: (_, pokemon, __) => Text(
-                pokemon.name,
+              itemBuilder: (_, pokemon, index) => GestureDetector(
+                onTap: () => Navigator.of(context).pushNamed(
+                  RouteNameBuilder.getPokemonDetailRoute(),
+                  arguments: pokemon.name,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text(
+                    '${index + 1} - ${pokemon.name}',
+                  ),
+                ),
               ),
               firstPageErrorIndicatorBuilder: (_) => TextButton(
                 onPressed: widget.onTryAgain,

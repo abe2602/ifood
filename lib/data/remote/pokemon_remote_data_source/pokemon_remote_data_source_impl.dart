@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:ifood/data/remote/pokemon_remote_data_source/model/pokemon_detail_remote_model.dart';
 import 'package:ifood/data/remote/pokemon_remote_data_source/model/pokemon_listing_remote_model.dart';
 import 'package:ifood/data/remote/pokemon_remote_data_source/pokemon_remote_data_source.dart';
 
@@ -18,6 +19,19 @@ class PokemonRemoteDataSourceImpl implements PokemonRemoteDataSource {
       );
 
       return PokemonListingRemoteModel.fromJson(response.data);
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<PokemonDetailRemoteModel> getPokemonDetail(String pokemonName)  async {
+    try {
+      final response = await dio.get(
+        '/$pokemonName',
+      );
+
+      return PokemonDetailRemoteModel.fromJson(response.data);
     } catch (error) {
       rethrow;
     }

@@ -1,3 +1,7 @@
 {
-  "applicationName" : "iFood Challenge"
+  "applicationName" : "iFood Challenge",
+  "pokemonListPageTitle" : "POKÉMON LIST",
+  "pokemonDetailPageReleaseButtonStatusText": "Release Pokémon",
+  "pokemonDetailPageCatchButtonStatusText": "Catch Pokémon",
+  "genericErrorEmptyStateTitle" : "Something went wrong, try again."
 }

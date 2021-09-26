@@ -1,0 +1,4 @@
+enum PokemonDetailStatus {
+  caught,
+  free,
+}
