@@ -1,5 +1,5 @@
-import 'package:domain/model/pokemon.dart';
+import 'package:domain/model/pokemon_listing.dart';
 
 abstract class PokemonRepository {
-  Future<List<Pokemon>> getPokemonList();
+  Future<PokemonListing> getPokemonList(int offset, int itemsPerPage);
 }

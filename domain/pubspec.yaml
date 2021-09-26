@@ -8,3 +8,4 @@ environment:
 
 dependencies:
   meta: ^1.1.8
+  mockito: ^5.0.0

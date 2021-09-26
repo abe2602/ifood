@@ -10,6 +10,16 @@ class Success implements PokemonListState {
   final List<Pokemon> pokemonList;
 }
 
+class PokemonListingState implements PokemonListState {
+  const PokemonListingState({
+    this.pokemonList,
+    this.nextOffset,
+  });
+
+  final List<Pokemon>? pokemonList;
+  final int? nextOffset;
+}
+
 class Error implements PokemonListState {}
 
 class Loading implements PokemonListState {}

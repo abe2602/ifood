@@ -9,7 +9,7 @@ abstract class UseCase<Params, Response> {
     try {
       return getRawFuture(params);
     } catch(error) {
-      if (error is! MockServerException) {
+      if (error is! ChallengeException) {
         throw GenericException();
       } else {
         rethrow;
