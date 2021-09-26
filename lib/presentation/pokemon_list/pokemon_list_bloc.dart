@@ -9,19 +9,25 @@ class PokemonListBloc with SubscriptionHolder {
   }) {
     _onNextPokemonListPageRequestSubject.stream
         .flatMap(_getPokemonList)
-        .listen((state) {
-      _onNextPokemonListStateSubject.add(state);
-    }).addTo(subscriptions);
+        .listen(_onNextPokemonListStateSubject.add)
+        .addTo(subscriptions);
 
-    // MergeStream([
-    //   _getPokemonList(),
-    // ]).listen(_onNewStateSubject.add).addTo(subscriptions);
+    MergeStream([
+      _onNextPokemonListPageRequestSubject.stream.flatMap(_getPokemonList),
+      _onTryAgainSubject.flatMap(
+        (_) => _getPokemonList(
+          _onNextPokemonListStateSubject.value.nextOffset ?? 0,
+        ),
+      ),
+    ]).listen(_onNextPokemonListStateSubject.add).addTo(subscriptions);
   }
 
   final GetPokemonListUseCase getPokemonListUseCase;
 
   // Subjects
   final _onNewStateSubject = BehaviorSubject<PokemonListState>();
+
+  final _onTryAgainSubject = PublishSubject<PokemonListState?>();
 
   final _onNextPokemonListStateSubject =
       BehaviorSubject<PokemonListingState>.seeded(
@@ -33,6 +39,8 @@ class PokemonListBloc with SubscriptionHolder {
   // Sink
   Sink<int> get onNextPokemonListPageRequestSink =>
       _onNextPokemonListPageRequestSubject.sink;
+
+  Sink<void> get onTryAgainSink => _onTryAgainSubject.sink;
 
   // Streams
   Stream<PokemonListState> get onNewState => _onNewStateSubject;
@@ -50,7 +58,7 @@ class PokemonListBloc with SubscriptionHolder {
     try {
       int nextOffset = 0;
 
-      if(lastListingState.pokemonList != null) {
+      if (lastListingState.pokemonList != null) {
         nextOffset = offset + _itemsPerPage;
       }
 
@@ -71,7 +79,11 @@ class PokemonListBloc with SubscriptionHolder {
         ],
       );
     } catch (error) {
-      print('error');
+      yield PokemonListingState(
+        error: PokemonListingError(),
+        nextOffset: lastListingState.nextOffset,
+        pokemonList: lastListingState.pokemonList,
+      );
     }
   }
 
@@ -79,6 +91,7 @@ class PokemonListBloc with SubscriptionHolder {
     _onNewStateSubject.close();
     _onNextPokemonListPageRequestSubject.close();
     _onNextPokemonListStateSubject.close();
+    _onTryAgainSubject.close();
     subscriptions.dispose();
   }
 }

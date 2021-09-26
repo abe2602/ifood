@@ -32,5 +32,8 @@ class PokemonListContainer extends StatelessWidget {
   Widget build(BuildContext context) => PokemonListPage.create(
         bloc.onNextPokemonListState,
         bloc.onNextPokemonListPageRequestSink,
+        _onTryAgain,
       );
+
+  void _onTryAgain() => bloc.onTryAgainSink.add(null);
 }

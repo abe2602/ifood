@@ -9,18 +9,23 @@ class PokemonListPage extends StatefulWidget {
   const PokemonListPage({
     required this.onNextPokemonListState,
     required this.onNextPokemonListPageRequestSink,
+    required this.onTryAgain,
     Key? key,
   }) : super(key: key);
 
-  static Widget create(Stream<PokemonListingState> onNextPokemonListState,
-          Sink<int> onNextPokemonListPageRequestSink) =>
+  static Widget create(
+          Stream<PokemonListingState> onNextPokemonListState,
+          Sink<int> onNextPokemonListPageRequestSink,
+          VoidCallback onTryAgain) =>
       PokemonListPage(
         onNextPokemonListState: onNextPokemonListState,
         onNextPokemonListPageRequestSink: onNextPokemonListPageRequestSink,
+        onTryAgain: onTryAgain,
       );
 
   final Stream<PokemonListingState> onNextPokemonListState;
   final Sink<int> onNextPokemonListPageRequestSink;
+  final VoidCallback onTryAgain;
 
   @override
   State<StatefulWidget> createState() => _PokemonListPageState();
@@ -33,14 +38,13 @@ class _PokemonListPageState extends State<PokemonListPage>
 
   @override
   void initState() {
-    _pokemonListController.addPageRequestListener((pageKey) {
-      widget.onNextPokemonListPageRequestSink.add(pageKey);
-    });
+    _pokemonListController
+        .addPageRequestListener(widget.onNextPokemonListPageRequestSink.add);
 
     widget.onNextPokemonListState.listen((listingState) {
       _pokemonListController.value = PagingState(
         nextPageKey: listingState.nextOffset,
-        error: null,
+        error: listingState.error,
         itemList: listingState.pokemonList,
       );
     });
@@ -56,6 +60,27 @@ class _PokemonListPageState extends State<PokemonListPage>
             builderDelegate: PagedChildBuilderDelegate(
               itemBuilder: (_, pokemon, __) => Text(
                 pokemon.name,
+              ),
+              firstPageErrorIndicatorBuilder: (_) => TextButton(
+                onPressed: widget.onTryAgain,
+                child: const Center(
+                  child: Text(
+                    'Algo deu errado, tente novament',
+                  ),
+                ),
+              ),
+              newPageErrorIndicatorBuilder: (_) => TextButton(
+                onPressed: widget.onTryAgain,
+                child: const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(
+                      8,
+                    ),
+                    child: Icon(
+                      Icons.refresh_outlined,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
