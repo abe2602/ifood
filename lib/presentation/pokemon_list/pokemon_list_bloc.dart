@@ -36,12 +36,6 @@ class PokemonListBloc with SubscriptionHolder {
 
   final _onNextPokemonListPageRequestSubject = PublishSubject<int>();
 
-  // Sink
-  Sink<int> get onNextPokemonListPageRequestSink =>
-      _onNextPokemonListPageRequestSubject.sink;
-
-  Sink<void> get onTryAgainSink => _onTryAgainSubject.sink;
-
   // Streams
   Stream<PokemonListState> get onNewState => _onNewStateSubject;
 
@@ -85,6 +79,14 @@ class PokemonListBloc with SubscriptionHolder {
         pokemonList: lastListingState.pokemonList,
       );
     }
+  }
+
+  void tryAgain() {
+    _onTryAgainSubject.add(null);
+  }
+
+  void requestNextPage(int offset) {
+    _onNextPokemonListPageRequestSubject.add(offset);
   }
 
   void dispose() {

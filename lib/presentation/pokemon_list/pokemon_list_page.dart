@@ -10,23 +10,24 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 class PokemonListPage extends StatefulWidget {
   const PokemonListPage({
     required this.onNextPokemonListState,
-    required this.onNextPokemonListPageRequestSink,
+    required this.requestNextPage,
     required this.onTryAgain,
     Key? key,
   }) : super(key: key);
 
   static Widget create(
-          Stream<PokemonListingState> onNextPokemonListState,
-          Sink<int> onNextPokemonListPageRequestSink,
-          VoidCallback onTryAgain) =>
+    Stream<PokemonListingState> onNextPokemonListState,
+    ValueChanged<int> requestNextPage,
+    VoidCallback onTryAgain,
+  ) =>
       PokemonListPage(
         onNextPokemonListState: onNextPokemonListState,
-        onNextPokemonListPageRequestSink: onNextPokemonListPageRequestSink,
+        requestNextPage: requestNextPage,
         onTryAgain: onTryAgain,
       );
 
   final Stream<PokemonListingState> onNextPokemonListState;
-  final Sink<int> onNextPokemonListPageRequestSink;
+  final ValueChanged<int> requestNextPage;
   final VoidCallback onTryAgain;
 
   @override
@@ -41,7 +42,7 @@ class _PokemonListPageState extends State<PokemonListPage>
   @override
   void initState() {
     _pokemonListController
-        .addPageRequestListener(widget.onNextPokemonListPageRequestSink.add);
+        .addPageRequestListener(widget.requestNextPage);
 
     widget.onNextPokemonListState.listen((listingState) {
       _pokemonListController.value = PagingState(
