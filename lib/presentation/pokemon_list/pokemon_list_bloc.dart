@@ -37,8 +37,6 @@ class PokemonListBloc with SubscriptionHolder {
   final _onNextPokemonListPageRequestSubject = PublishSubject<int>();
 
   // Streams
-  Stream<PokemonListState> get onNewState => _onNewStateSubject;
-
   Stream<PokemonListingState> get onNextPokemonListState =>
       _onNextPokemonListStateSubject.stream;
 

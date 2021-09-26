@@ -1,4 +1,3 @@
-import 'package:domain/model/pokemon.dart';
 import 'package:domain/model/pokemon_listing.dart';
 import 'package:domain/repository/pokemon_repository.dart';
 import 'package:domain/use_case/use_case.dart';
