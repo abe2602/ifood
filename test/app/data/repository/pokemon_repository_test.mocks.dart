@@ -2,13 +2,13 @@
 // in ifood/test/app/data/repository/pokemon_repository_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
 import 'package:dio/dio.dart' as _i2;
-import 'package:ifood/data/remote/pokemon_remote_data_source/model/pokemon_remote_model.dart'
-    as _i5;
-import 'package:ifood/data/remote/pokemon_remote_data_source/pokemon_remote_data_source_impl.dart'
+import 'package:ifood/data/remote/pokemon_remote_data_source/model/pokemon_listing_remote_model.dart'
     as _i3;
+import 'package:ifood/data/remote/pokemon_remote_data_source/pokemon_remote_data_source_impl.dart'
+    as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: avoid_redundant_argument_values
@@ -21,11 +21,14 @@ import 'package:mockito/mockito.dart' as _i1;
 
 class _FakeDio_0 extends _i1.Fake implements _i2.Dio {}
 
+class _FakePokemonListingRemoteModel_1 extends _i1.Fake
+    implements _i3.PokemonListingRemoteModel {}
+
 /// A class which mocks [PokemonRemoteDataSourceImpl].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockPokemonRemoteDataSourceImpl extends _i1.Mock
-    implements _i3.PokemonRemoteDataSourceImpl {
+    implements _i4.PokemonRemoteDataSourceImpl {
   MockPokemonRemoteDataSourceImpl() {
     _i1.throwOnMissingStub(this);
   }
@@ -35,11 +38,13 @@ class MockPokemonRemoteDataSourceImpl extends _i1.Mock
       (super.noSuchMethod(Invocation.getter(#dio), returnValue: _FakeDio_0())
           as _i2.Dio);
   @override
-  _i4.Future<List<_i5.PokemonRemoteModel>> getPokemonList(int? offset) =>
-      (super.noSuchMethod(Invocation.method(#getPokemonList, [offset]),
-              returnValue: Future<List<_i5.PokemonRemoteModel>>.value(
-                  <_i5.PokemonRemoteModel>[]))
-          as _i4.Future<List<_i5.PokemonRemoteModel>>);
+  _i5.Future<_i3.PokemonListingRemoteModel> getPokemonList(
+          int? offset, int? itemsPerPage) =>
+      (super.noSuchMethod(
+              Invocation.method(#getPokemonList, [offset, itemsPerPage]),
+              returnValue: Future<_i3.PokemonListingRemoteModel>.value(
+                  _FakePokemonListingRemoteModel_1()))
+          as _i5.Future<_i3.PokemonListingRemoteModel>);
   @override
   String toString() => super.toString();
 }

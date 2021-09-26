@@ -2,12 +2,12 @@
 // in ifood/test/domain/use_case/get_pokemon_list_use_case_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
-import 'package:domain/model/pokemon.dart' as _i5;
+import 'package:domain/model/pokemon_listing.dart' as _i3;
 import 'package:ifood/data/remote/pokemon_remote_data_source/pokemon_remote_data_source.dart'
     as _i2;
-import 'package:ifood/data/repository/pokemon_repository_impl.dart' as _i3;
+import 'package:ifood/data/repository/pokemon_repository_impl.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: avoid_redundant_argument_values
@@ -21,11 +21,13 @@ import 'package:mockito/mockito.dart' as _i1;
 class _FakePokemonRemoteDataSource_0 extends _i1.Fake
     implements _i2.PokemonRemoteDataSource {}
 
+class _FakePokemonListing_1 extends _i1.Fake implements _i3.PokemonListing {}
+
 /// A class which mocks [PokemonRepositoryImpl].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockPokemonRepositoryImpl extends _i1.Mock
-    implements _i3.PokemonRepositoryImpl {
+    implements _i4.PokemonRepositoryImpl {
   MockPokemonRepositoryImpl() {
     _i1.throwOnMissingStub(this);
   }
@@ -36,10 +38,13 @@ class MockPokemonRepositoryImpl extends _i1.Mock
               returnValue: _FakePokemonRemoteDataSource_0())
           as _i2.PokemonRemoteDataSource);
   @override
-  _i4.Future<List<_i5.Pokemon>> getPokemonList(int? offset) =>
-      (super.noSuchMethod(Invocation.method(#getPokemonList, [offset]),
-              returnValue: Future<List<_i5.Pokemon>>.value(<_i5.Pokemon>[]))
-          as _i4.Future<List<_i5.Pokemon>>);
+  _i5.Future<_i3.PokemonListing> getPokemonList(
+          int? offset, int? itemsPerPage) =>
+      (super.noSuchMethod(
+              Invocation.method(#getPokemonList, [offset, itemsPerPage]),
+              returnValue:
+                  Future<_i3.PokemonListing>.value(_FakePokemonListing_1()))
+          as _i5.Future<_i3.PokemonListing>);
   @override
   String toString() => super.toString();
 }
