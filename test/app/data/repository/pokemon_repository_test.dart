@@ -1,5 +1,6 @@
 import 'package:domain/model/pokemon.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ifood/data/remote/pokemon_remote_data_source/model/pokemon_detail_remote_model.dart';
 import 'package:ifood/data/remote/pokemon_remote_data_source/model/pokemon_listing_remote_model.dart';
 import 'package:ifood/data/remote/pokemon_remote_data_source/model/pokemon_remote_model.dart';
 import 'package:ifood/data/remote/pokemon_remote_data_source/pokemon_remote_data_source_impl.dart';
@@ -14,24 +15,24 @@ void main() {
   const offset = 0;
   const itemsPerPage = 1;
 
+  final mockRemoteDataSource = MockPokemonRemoteDataSourceImpl();
+
+  final repository = PokemonRepositoryImpl(
+    remoteDataSource: mockRemoteDataSource,
+  );
+
   group(
     'Get pokemon list',
     () {
-      final mockRemoteDataSource = MockPokemonRemoteDataSourceImpl();
-
-      final repository = PokemonRepositoryImpl(
-        remoteDataSource: mockRemoteDataSource,
-      );
-
       test(
-        'Empty Pokemon list should be returned',
+        'Should return empty Pokemon list',
         () async {
           // Arrange
 
           // Act
           when(mockRemoteDataSource.getPokemonList(offset, itemsPerPage))
               .thenAnswer(
-            (realInvocation) async => const PokemonListingRemoteModel(
+            (_) async => const PokemonListingRemoteModel(
               pokemonList: [],
               totalAmount: 10,
             ),
@@ -44,8 +45,9 @@ void main() {
           expect(pokemonListing.pokemonList, []);
         },
       );
+
       test(
-        'Pokemon list should be returned',
+        'Should return Pokemon list with one Pokémon',
         () async {
           // Arrange
           const pokemon = PokemonRemoteModel(
@@ -54,7 +56,7 @@ void main() {
           // Act
           when(mockRemoteDataSource.getPokemonList(offset, itemsPerPage))
               .thenAnswer(
-            (realInvocation) async => const PokemonListingRemoteModel(
+            (_) async => const PokemonListingRemoteModel(
               pokemonList: [pokemon],
               totalAmount: 10,
             ),
@@ -72,6 +74,35 @@ void main() {
           expect(
             pokemonListing.pokemonList.first.name,
             pokemon.name,
+          );
+        },
+      );
+    },
+  );
+
+  group(
+    'Get pokemon detail',
+    () {
+      test(
+        'Should return Pokemon with name Blastoise',
+            () async {
+          // Arrange
+          const pokemonDetailRemoteModel = PokemonDetailRemoteModel(
+            name: 'Blastoise',
+          );
+
+          // Act
+          when(mockRemoteDataSource.getPokemonDetail('blastoise'))
+              .thenAnswer(
+                (_) async => pokemonDetailRemoteModel,
+          );
+
+          final pokemonDetail = await repository.getPokemonDetail('blastoise');
+
+          // Assert
+          expect(
+            pokemonDetail.name,
+            pokemonDetailRemoteModel.name,
           );
         },
       );

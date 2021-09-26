@@ -23,27 +23,32 @@ void main() {
       );
 
       test(
-        'Empty Pokemon list should be returned',
+        'Should return empty Pokemon list',
         () async {
           // Arrange
 
           // Act
           when(mockPokemonRepository.getPokemonList(offset, itemsPerPage))
               .thenAnswer(
-            (realInvocation) async => const PokemonListing(
+            (_) async => const PokemonListing(
               pokemonList: [],
               totalAmount: 10,
             ),
           );
 
-          final pokemonListing = await getPokemonListUseCase();
+          final pokemonListing = await getPokemonListUseCase(
+            params: const GetPokemonListUseCaseParams(
+              offset: offset,
+              itemsPerPage: itemsPerPage,
+            ),
+          );
 
           // Assert
           expect(pokemonListing.pokemonList, []);
         },
       );
       test(
-        'Pokemon list should be returned',
+        'Should return Pokemon list with one Pokemon',
         () async {
           // Arrange
           const pokemon = Pokemon(
@@ -52,7 +57,7 @@ void main() {
           // Act
           when(mockPokemonRepository.getPokemonList(offset, itemsPerPage))
               .thenAnswer(
-            (realInvocation) async => const PokemonListing(
+            (_) async => const PokemonListing(
               pokemonList: [
                 pokemon,
               ],
@@ -60,7 +65,12 @@ void main() {
             ),
           );
 
-          final pokemonListing = await getPokemonListUseCase();
+          final pokemonListing = await getPokemonListUseCase(
+            params: const GetPokemonListUseCaseParams(
+              offset: offset,
+              itemsPerPage: itemsPerPage,
+            ),
+          );
 
           // Assert
           expect(
