@@ -3,5 +3,8 @@
   "pokemonListPageTitle" : "POKÉMON LIST",
   "pokemonDetailPageReleaseButtonStatusText": "Release Pokémon",
   "pokemonDetailPageCatchButtonStatusText": "Catch Pokémon",
-  "genericErrorEmptyStateTitle" : "Something went wrong, try again."
+  "caughtPokemonListTitle" : "CAUGHT POKÉMON",
+  "noCaughtPokemonPageText" : "Any Pokemon has been caught yet",
+  "genericErrorEmptyStateTitle" : "Something went wrong, try again.",
+  "genericErrorEmptyStateButtonText" : "Try Again"
 }

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ifood/generated/l10n.dart';
 import 'package:ifood/infrastructure/routes/route_name_builder.dart';
+import 'package:ifood/presentation/common/generic_error_empty_state.dart';
 import 'package:ifood/presentation/common/subscription_holder.dart';
 import 'package:ifood/presentation/pokemon_list/model/pokemon_list_state.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -41,8 +42,7 @@ class _PokemonListPageState extends State<PokemonListPage>
 
   @override
   void initState() {
-    _pokemonListController
-        .addPageRequestListener(widget.requestNextPage);
+    _pokemonListController.addPageRequestListener(widget.requestNextPage);
 
     widget.onNextPokemonListState.listen((listingState) {
       _pokemonListController.value = PagingState(
@@ -78,13 +78,8 @@ class _PokemonListPageState extends State<PokemonListPage>
                   ),
                 ),
               ),
-              firstPageErrorIndicatorBuilder: (_) => TextButton(
-                onPressed: widget.onTryAgain,
-                child: const Center(
-                  child: Text(
-                    'Algo deu errado, tente novament',
-                  ),
-                ),
+              firstPageErrorIndicatorBuilder: (_) => GenericErrorEmptyState(
+                onTryAgain: widget.onTryAgain,
               ),
               newPageErrorIndicatorBuilder: (_) => TextButton(
                 onPressed: widget.onTryAgain,

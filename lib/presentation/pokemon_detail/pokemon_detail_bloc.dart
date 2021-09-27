@@ -17,7 +17,12 @@ class PokemonDetailBloc with SubscriptionHolder {
   }) {
     MergeStream([
       _getPokemonDetail(),
-      _onChangePokemonStatus.flatMap(_changePokemonStatus),
+      _onTryAgainSubject.flatMap(
+        (_) => _getPokemonDetail(),
+      ),
+      _onChangePokemonStatus.flatMap(
+        _changePokemonStatus,
+      ),
     ]).listen(_onNewState.add).addTo(subscriptions);
   }
 
@@ -34,6 +39,8 @@ class PokemonDetailBloc with SubscriptionHolder {
   final _onPokemonStatus = BehaviorSubject<PokemonStatus>();
 
   final _onChangePokemonStatus = PublishSubject<String>();
+
+  final _onTryAgainSubject = PublishSubject<PokemonDetailState?>();
 
   // Streams
   Stream<PokemonDetailState> get onNewState => _onNewState.stream;
@@ -105,7 +112,12 @@ class PokemonDetailBloc with SubscriptionHolder {
     _onChangePokemonStatus.add(pokemonName);
   }
 
+  void tryAgain() {
+    _onTryAgainSubject.add(null);
+  }
+
   void dispose() {
+    _onTryAgainSubject.close();
     _onNewAction.close();
     _onChangePokemonStatus.close();
     _onPokemonStatus.close();

@@ -3,7 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:ifood/presentation/caught_pokemon/caught_pokemon_bloc.dart';
 import 'package:ifood/presentation/caught_pokemon/caught_pokemon_page.dart';
 import 'package:ifood/presentation/caught_pokemon/model/caught_pokemon_state.dart';
+import 'package:ifood/presentation/caught_pokemon/widgets/no_caught_pokemon_page.dart';
 import 'package:ifood/presentation/common/async_snapshot_response_view.dart';
+import 'package:ifood/presentation/common/generic_error_empty_state.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -42,10 +44,21 @@ class CaughtPokemonContainer extends StatelessWidget {
         builder: (_, snapshot) =>
             AsyncSnapshotResponseView<Loading, Success, Error>(
           snapshot: snapshot,
-          successWidgetBuilder: (success) => CaughtPokemonPage(
-            pokemonList: success.pokemonList,
+          successWidgetBuilder: (success) {
+            final caughtPokemonList = success.pokemonList;
+
+            if (caughtPokemonList.isEmpty) {
+              return const NoCaughtPokemonPage();
+            } else {
+              return CaughtPokemonPage(
+                pokemonList: caughtPokemonList,
+              );
+            }
+          },
+          errorWidgetBuilder: (error) => GenericErrorEmptyState(
+            onTryAgain: bloc.tryAgain,
+            appBarTitle: '',
           ),
-          errorWidgetBuilder: (error) => Container(),
         ),
       );
 }

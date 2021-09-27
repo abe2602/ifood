@@ -13,6 +13,9 @@ class CaughtPokemonBloc with SubscriptionHolder {
       caughtPokemonDataObservable.flatMap(
         (_) => _getCaughtPokemonList(),
       ),
+      _onTryAgainSubject.flatMap(
+        (_) => _getCaughtPokemonList(),
+      ),
     ]).listen(_onNewState.add).addTo(subscriptions);
   }
 
@@ -21,6 +24,8 @@ class CaughtPokemonBloc with SubscriptionHolder {
 
   // Subjects
   final _onNewState = BehaviorSubject<CaughtPokemonState>();
+
+  final _onTryAgainSubject = PublishSubject<CaughtPokemonState?>();
 
   // Streams
   Stream<CaughtPokemonState> get onNewState => _onNewState.stream;
@@ -39,7 +44,12 @@ class CaughtPokemonBloc with SubscriptionHolder {
     }
   }
 
+  void tryAgain() {
+    _onTryAgainSubject.add(null);
+  }
+
   void dispose() {
+    _onTryAgainSubject.close();
     _onNewState.close();
     disposeAll();
   }

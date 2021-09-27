@@ -1,6 +1,7 @@
 import 'package:domain/model/pokemon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ifood/generated/l10n.dart';
 
 class CaughtPokemonPage extends StatelessWidget {
   const CaughtPokemonPage({
@@ -14,7 +15,7 @@ class CaughtPokemonPage extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text(
-            'CAUGHT POKÉMON',
+            S.of(context).caughtPokemonListTitle,
           ),
         ),
         body: ListView.builder(

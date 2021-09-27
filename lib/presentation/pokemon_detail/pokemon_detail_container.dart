@@ -2,8 +2,10 @@ import 'package:domain/use_case/get_pokemon_detail_use_case.dart';
 import 'package:domain/use_case/catch_pokemon_use_case.dart';
 import 'package:domain/use_case/release_pokemon_use_case.dart';
 import 'package:flutter/material.dart';
+import 'package:ifood/generated/l10n.dart';
 import 'package:ifood/presentation/common/action_handler.dart';
 import 'package:ifood/presentation/common/async_snapshot_response_view.dart';
+import 'package:ifood/presentation/common/generic_error_empty_state.dart';
 import 'package:ifood/presentation/pokemon_detail/model/pokemon_detail_actions.dart';
 import 'package:ifood/presentation/pokemon_detail/model/pokemon_detail_state.dart';
 import 'package:ifood/presentation/pokemon_detail/pokemon_detail_bloc.dart';
@@ -62,9 +64,10 @@ class PokemonDetailContainer extends StatelessWidget {
                 onPokemonStatus: bloc.onPokemonStatus,
                 onChangePokemonStatus: bloc.changePokemonStatus,
               ),
-              errorWidgetBuilder: (error) {
-                return Container();
-              },
+              errorWidgetBuilder: (_) => GenericErrorEmptyState(
+                onTryAgain: bloc.tryAgain,
+                appBarTitle: '',
+              ),
             ),
           ),
         ),
