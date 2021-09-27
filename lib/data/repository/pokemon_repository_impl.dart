@@ -22,13 +22,7 @@ class PokemonRepositoryImpl implements PokemonRepository {
         await remoteDataSource.getPokemonList(offset, itemsPerPage);
 
     return PokemonListing(
-      pokemonList: remotePokemonListing.pokemonList
-          .map(
-            (pokemon) => Pokemon(
-              name: pokemon.name,
-            ),
-          )
-          .toList(),
+      pokemonList: remotePokemonListing.pokemonList.toDomain(),
       totalAmount: remotePokemonListing.totalAmount,
     );
   }
@@ -51,4 +45,11 @@ class PokemonRepositoryImpl implements PokemonRepository {
   @override
   Future<void> releasePokemon(String pokemonName) =>
       cacheDataSource.releasePokemon(pokemonName);
+
+  @override
+  Future<List<Pokemon>> getCaughtPokemonList() async {
+    final cacheCaughtPokemonList = await cacheDataSource.getCaughtPokemonList();
+
+    return cacheCaughtPokemonList.toDomain();
+  }
 }

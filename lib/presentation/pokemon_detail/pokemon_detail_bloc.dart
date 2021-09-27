@@ -3,11 +3,12 @@ import 'package:domain/model/pokemon_status.dart';
 import 'package:domain/use_case/get_pokemon_detail_use_case.dart';
 import 'package:domain/use_case/catch_pokemon_use_case.dart';
 import 'package:domain/use_case/release_pokemon_use_case.dart';
+import 'package:ifood/presentation/common/subscription_holder.dart';
 import 'package:ifood/presentation/pokemon_detail/model/pokemon_detail_actions.dart';
 import 'package:ifood/presentation/pokemon_detail/model/pokemon_detail_state.dart';
 import 'package:rxdart/rxdart.dart';
 
-class PokemonDetailBloc {
+class PokemonDetailBloc with SubscriptionHolder {
   PokemonDetailBloc({
     required this.pokemonName,
     required this.getPokemonDetailUseCase,
@@ -17,7 +18,7 @@ class PokemonDetailBloc {
     MergeStream([
       _getPokemonDetail(),
       _onChangePokemonStatus.flatMap(_changePokemonStatus),
-    ]).listen(_onNewState.add);
+    ]).listen(_onNewState.add).addTo(subscriptions);
   }
 
   final String pokemonName;
@@ -109,5 +110,6 @@ class PokemonDetailBloc {
     _onChangePokemonStatus.close();
     _onPokemonStatus.close();
     _onNewState.close();
+    disposeAll();
   }
 }

@@ -57,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
           icon: Icon(Icons.favorite_border),
         ),
         navigatorKey: GlobalKey<NavigatorState>(),
-        initialRouteName: RouteNameBuilder.getPokemonListRoute(),
+        initialRouteName: RouteNameBuilder.getCaughtPokemonListRoute(),
       ),
     ];
     super.didChangeDependencies();

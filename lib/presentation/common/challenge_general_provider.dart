@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:domain/repository/pokemon_repository.dart';
 import 'package:domain/use_case/catch_pokemon_use_case.dart';
+import 'package:domain/use_case/get_caught_pokemon_list_use_case.dart';
 import 'package:domain/use_case/get_pokemon_detail_use_case.dart';
 import 'package:domain/use_case/get_pokemon_list_use_case.dart';
 import 'package:domain/use_case/release_pokemon_use_case.dart';
@@ -13,6 +14,7 @@ import 'package:ifood/data/remote/pokemon_remote_data_source/pokemon_remote_data
 import 'package:ifood/data/repository/pokemon_repository_impl.dart';
 import 'package:ifood/infrastructure/remote/challenge_dio.dart';
 import 'package:ifood/infrastructure/routes/route_name_builder.dart';
+import 'package:ifood/presentation/caught_pokemon/caught_pokemon_container.dart';
 import 'package:ifood/presentation/main/main_screen.dart';
 import 'package:ifood/presentation/pokemon_detail/pokemon_detail_container.dart';
 import 'package:ifood/presentation/pokemon_list/pokemon_list_container.dart';
@@ -95,6 +97,13 @@ class ChallengeGeneralProvider extends StatelessWidget {
               );
             }
 
+            if (settings.name == RouteNameBuilder.getCaughtPokemonListRoute()) {
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => CaughtPokemonContainer.create(),
+              );
+            }
+
             return MaterialPageRoute(
               settings: settings,
               builder: (_) => Container(),
@@ -132,6 +141,11 @@ class ChallengeGeneralProvider extends StatelessWidget {
         ),
         ProxyProvider<PokemonRepository, ReleasePokemonUseCase>(
           update: (_, repository, __) => ReleasePokemonUseCase(
+            repository: repository,
+          ),
+        ),
+        ProxyProvider<PokemonRepository, GetCaughtPokemonListUseCase>(
+          update: (_, repository, __) => GetCaughtPokemonListUseCase(
             repository: repository,
           ),
         ),
