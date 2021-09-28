@@ -26,3 +26,9 @@ The domain has all use cases and "contracts", while the application implements t
 - More complex UI;
 - Code revision.
 
+## Images
+
+![](https://i.imgur.com/lJOCg5m.png)
+![](https://i.imgur.com/wjoMkdM.png)
+![](https://i.imgur.com/tR7cPOF.png)
+![](https://i.imgur.com/aILTyPn.png)
