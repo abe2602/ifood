@@ -1,14 +1,12 @@
 import 'package:domain/model/pokemon.dart';
 import 'package:domain/model/pokemon_listing.dart';
+import 'package:domain/repository/pokemon_repository.dart';
 import 'package:domain/use_case/get_pokemon_list_use_case.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ifood/data/repository/pokemon_repository_impl.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
-import 'get_pokemon_list_use_case_test.mocks.dart';
+class MockPokemonRepository extends Mock implements PokemonRepository {}
 
-@GenerateMocks([PokemonRepositoryImpl])
 void main() {
   const offset = 0;
   const itemsPerPage = 1;
@@ -16,10 +14,10 @@ void main() {
   group(
     'Get pokemon list',
     () {
-      final mockPokemonRepository = MockPokemonRepositoryImpl();
+      final mockRepository = MockPokemonRepository();
 
       final getPokemonListUseCase = GetPokemonListUseCase(
-        repository: mockPokemonRepository,
+        repository: mockRepository,
       );
 
       test(
@@ -28,8 +26,9 @@ void main() {
           // Arrange
 
           // Act
-          when(mockPokemonRepository.getPokemonList(offset, itemsPerPage))
-              .thenAnswer(
+          when(
+            () => mockRepository.getPokemonList(offset, itemsPerPage),
+          ).thenAnswer(
             (_) async => const PokemonListing(
               pokemonList: [],
               totalAmount: 10,
@@ -55,8 +54,9 @@ void main() {
             name: 'Blastoise',
           );
           // Act
-          when(mockPokemonRepository.getPokemonList(offset, itemsPerPage))
-              .thenAnswer(
+          when(
+            () => mockRepository.getPokemonList(offset, itemsPerPage),
+          ).thenAnswer(
             (_) async => const PokemonListing(
               pokemonList: [
                 pokemon,

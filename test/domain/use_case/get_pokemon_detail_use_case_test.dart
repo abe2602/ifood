@@ -1,26 +1,27 @@
 import 'package:domain/model/pokemon_detail.dart';
 import 'package:domain/model/pokemon_status.dart';
+import 'package:domain/repository/pokemon_repository.dart';
 import 'package:domain/use_case/get_pokemon_detail_use_case.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ifood/data/repository/pokemon_repository_impl.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
-import 'get_pokemon_list_use_case_test.mocks.dart';
+class MockPokemonRepository extends Mock implements PokemonRepository {}
 
-@GenerateMocks([PokemonRepositoryImpl])
 void main() {
   test(
     'Should return Pokemon with name Blastoise',
     () async {
       // Arrange
-      final mockPokemonRepository = MockPokemonRepositoryImpl();
+      final mockRepository = MockPokemonRepository();
 
       final getPokemonDetailUseCase = GetPokemonDetailUseCase(
-        repository: mockPokemonRepository,
+        repository: mockRepository,
       );
+
       // Act
-      when(mockPokemonRepository.getPokemonDetail('blastoise')).thenAnswer(
+      when(
+        () => mockRepository.getPokemonDetail('blastoise'),
+      ).thenAnswer(
         (_) async => const PokemonDetail(
           name: 'blastoise',
           status: PokemonStatus.free,
