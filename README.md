@@ -1,16 +1,28 @@
-# ifood
+# iFood Chalenge
+This is the iFood challenge.
+In this challenge I'm building an app using Pokemon API. This app has a bottom navigation with two tabs, a Pokémon List (with pagination) and the Caught Pokémon List (shows all caught pokémon).
 
-A new Flutter project.
+## Libs, Architecture and tests
 
-## Getting Started
+This project is built using these libs/architectures:
+- [RxDart](https://pub.dev/packages/rxdart);
+- [Provider](https://pub.dev/packages/provider);
+- [Hive](https://pub.dev/packages/hive);
+- [Dio](https://pub.dev/packages/dio);
+- [Infinite Scroll Pagination](https://pub.dev/packages/infinite_scroll_pagination);
+- [Mocktail](https://pub.dev/packages/mocktail/install);
+- BLoC.
 
-This project is a starting point for a Flutter application.
+## How it's organized
 
-A few resources to get you started if this is your first Flutter project:
+This project is using Clean Arc, so it has layers. The two "main" layers are: domain and application.
+The domain has all use cases and "contracts", while the application implements those contracts and creates all Pages, Navigation, etc.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Missing features
+
+- Widgets Tests;
+- Integration Tests;
+- More complex UI;
+- Code revision.
+
